@@ -6,7 +6,7 @@ import numpy as np
 def plotPercentStackedBarPlots(segmentList):
     n = len(segmentList)
     r = range(n)
-    names = ('Enforce Laws and Policies','Anonymize Data', 'Publish Technical Details', 'Notify about Data Collection')
+    names = ('Laws & Policies','Anonymize Data', 'Publish Tech. Details', 'Notify Data Collection')
     raw_data = {'blueBars': [segmentList[0][0], segmentList[1][0], segmentList[2][0], segmentList[3][0]], 'greenBars': [segmentList[0][1], segmentList[1][1],segmentList[2][1], segmentList[3][1]],'orangeBars': [segmentList[0][2], segmentList[1][2], segmentList[2][2], segmentList[3][2]]}
 
     df = pd.DataFrame(raw_data)
@@ -17,14 +17,39 @@ def plotPercentStackedBarPlots(segmentList):
     blueBars = [i * 100.0 / j for i,j in zip(df['blueBars'], totals)]
 
     # plot
-    barWidth = 0.85
+    barWidth = 0.65
     # Create green Bars
     plt.bar(r, greenBars, color='yellowgreen', edgecolor='white', width=barWidth, label='Helpful')
+
     # Create orange Bars
     plt.bar(r, orangeBars, bottom=greenBars, color='lightcoral', edgecolor='white', width=barWidth, label='Not Helpful')
+    
     # Create blue Bars
     plt.bar(r, blueBars, bottom=[i+j for i,j in zip(greenBars, orangeBars)], color='lightskyblue', edgecolor='white', width=barWidth, label='Neutral')
- 
+
+    # Add text
+    for num in r:
+        i = greenBars[num]
+        j = orangeBars[num]
+        k = blueBars[num]
+        threshold = 10
+        reduced_factor = 6
+        if i != 0.0:
+            factor = 2
+            if i < threshold:
+                factor = reduced_factor
+            plt.text(num - 0.1, i/factor, str(round(i, 2)) + "%")
+        if j != 0.0:
+            factor = 2
+            if j < threshold:
+                factor = reduced_factor
+            plt.text(num - 0.1, i + j/factor, str(round(j, 2)) + "%")
+        if k != 0.0:
+            factor = 2
+            if k < threshold:
+                factor = reduced_factor
+            plt.text(num - 0.1, i + j + k/factor, str(round(k, 2)) + "%")
+
     # Custom x axis
     plt.xticks(r, names)
     plt.xlabel("Factors affecting overall comfort levels across the three use cases", fontweight='bold')
@@ -35,7 +60,10 @@ def plotPercentStackedBarPlots(segmentList):
     plt.ylabel("% of respondents", fontweight='bold')  
 
     # Add a legend
-    plt.legend(loc='upper left', bbox_to_anchor=(1,1), ncol=1)
+    plt.legend(loc='lower right')
+
+    # Show title
+    plt.title("Impact of factors", fontweight='bold')
 
     # Show graphic
     plt.show() 
