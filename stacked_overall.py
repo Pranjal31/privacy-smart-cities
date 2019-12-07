@@ -19,11 +19,11 @@ def plotPercentStackedBarPlots(segmentList):
     # plot
     barWidth = 0.85
     # Create green Bars
-    plt.bar(r, greenBars, color='#b5ffb9', edgecolor='white', width=barWidth, label='Helpful')
+    plt.bar(r, greenBars, color='yellowgreen', edgecolor='white', width=barWidth, label='Helpful')
     # Create orange Bars
-    plt.bar(r, orangeBars, bottom=greenBars, color='#f9bc86', edgecolor='white', width=barWidth, label='Not Helpful')
+    plt.bar(r, orangeBars, bottom=greenBars, color='lightcoral', edgecolor='white', width=barWidth, label='Not Helpful')
     # Create blue Bars
-    plt.bar(r, blueBars, bottom=[i+j for i,j in zip(greenBars, orangeBars)], color='#a3acff', edgecolor='white', width=barWidth, label='Neutral')
+    plt.bar(r, blueBars, bottom=[i+j for i,j in zip(greenBars, orangeBars)], color='lightskyblue', edgecolor='white', width=barWidth, label='Neutral')
  
     # Custom x axis
     plt.xticks(r, names)

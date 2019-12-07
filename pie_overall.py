@@ -25,9 +25,9 @@ def plotPieChart(segments):
     nc_pc = 100.0 * segments[2] / numResponses
     dec_pc = 100.0 * segments[3] / numResponses
 
-    labels = [r'Significant Increase (' + str(sig_inc_pc)+ '%)', r'Insignificant Increase (' + str(insig_inc_pc)+ '%)', 
-    r'No Change (' + str(nc_pc)+ '%)', r'Decrease (' + str(dec_pc)+ '%)']
-    colors = ['lightskyblue', 'gold', 'lightcoral', 'yellowgreen']
+    labels = [r'Significant Increase (' + str(round(sig_inc_pc, 2))+ '%)', r'Insignificant Increase (' + str(round(insig_inc_pc, 2))+ '%)', 
+    r'No Change (' + str(round(nc_pc, 2)) + '%)', r'Decrease (' + str(round(dec_pc, 2)) + '%)']
+    colors = ['yellowgreen','gold','lightskyblue','lightcoral']
     patches, texts = plt.pie(segments, colors=colors, startangle=90)
     plt.legend(patches, labels, loc="best")
     # Set aspect ratio to be equal so that pie is drawn as a circle.
