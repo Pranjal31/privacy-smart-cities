@@ -50,7 +50,7 @@ def plot_ccdf(list_tuples, title, xlabel = None, ylabel = None):
 
 def main():
     create_indexes()
-    data = fetch_data_from_csv("survey_responses.csv")
+    data = fetch_data_from_csv("data/survey_responses.csv")
     without_cpo = []
     with_cpo = []
     individual_usecase = {}
