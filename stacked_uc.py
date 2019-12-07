@@ -34,11 +34,11 @@ def plotPercentStackedBarPlots(segmentList, usecase):
     plt.xticks(r, names)
     xlabel = ""
     if usecase == "pp":
-        xlabel = "Factors affecting confidence level with Predictive Policing"
+        xlabel = "Factors affecting comfort level with Predictive Policing"
     elif usecase == "scs":
-        xlabel = "Factors affecting confidence level with Smart Complaint System"
+        xlabel = "Factors affecting comfort level with Smart Complaint System"
     else:
-        xlabel = "Factors affecting confidence level with Smart Transportation"
+        xlabel = "Factors affecting comfort level with Smart Transportation"
     plt.xlabel(xlabel, fontweight='bold')
 
     # Custom y axis
@@ -73,7 +73,6 @@ if __name__ == '__main__':
     # data cleaning
     data.columns = data.columns.str.strip().str.lower().str.replace(' ', '_').str.replace('(', '').str.replace(')', '')
 
-    num_high_comf = 0      
     comf_thresh = 3     # threshold for high comfort
     help_thresh = 3     # threshold for high helpfulness
     help_levels = ['neutral','helpful','nothelpful']    # helpfulness levels
@@ -85,7 +84,6 @@ if __name__ == '__main__':
         col = usecase+ '_with_cpo'
         # sample size should include only the users that have high comfort post-CPO
         if data.loc[i, col] > comf_thresh:   
-            num_high_comf += 1 
             factors = getFactorsForUsecase(usecase)
 
             # initialize the dictionary, if not already done so
@@ -105,7 +103,6 @@ if __name__ == '__main__':
                 else:
                     key = factor_col + '_nothelpful'
                 factorDict[key] += 1   
-
     factor_list_list = []
     for factor in factors:
         factor_list = []
@@ -113,4 +110,5 @@ if __name__ == '__main__':
             key = factor + '_' + help_level
             factor_list.append(factorDict[key])
         factor_list_list.append(factor_list)
+
     plotPercentStackedBarPlots(factor_list_list, usecase)
