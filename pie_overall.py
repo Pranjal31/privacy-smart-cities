@@ -27,11 +27,9 @@ def plotPieChart(segments):
     explode = (0.1, 0, 0, 0)
     fig1, ax1 = plt.subplots()
     plt.pie(segments, colors=colors, labels=labels, explode=explode, autopct='%1.1f%%', startangle=90)
-    # plt.legend(patches, labels, loc="best")
     # Set aspect ratio to be equal so that pie is drawn as a circle.
     plt.axis('equal')
-    # plt.tight_layout()
-    plt.title("Change in Privacy Confidence due to CPO appointment")
+    plt.title("Change in Privacy Confidence due to CPO appointment",fontweight='bold')
     plt.show()
 
 
