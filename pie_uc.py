@@ -29,7 +29,7 @@ def plotPieChart(segments, full_usecase):
     plt.pie(segments, colors=colors, labels=labels, explode=explode, autopct='%1.1f%%', startangle=90)
     # Set aspect ratio to be equal so that pie is drawn as a circle.
     plt.axis('equal')
-    plt.title("Change in Privacy Confidence due to CPO appointment for " + full_usecase)
+    plt.title("Change in Privacy Confidence due to CPO appointment for " + full_usecase,fontweight='bold')
     plt.show()
 
 
