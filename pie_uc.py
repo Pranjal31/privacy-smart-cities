@@ -2,13 +2,14 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import csv
 import sys
-           
+
+
 def classifyUser(i, data, usecase):
-    sig_incr_thresh = 3      # threshold for significant increase
+    sig_incr_thresh = 3  # threshold for significant increase
     col_w_cpo = usecase + "_with_cpo"
     col_wo_cpo = usecase + "_without_cpo"
     confidenceDiff = data.loc[i, col_w_cpo] - data.loc[i, col_wo_cpo]
-   
+
     # segmentation criterion
     if confidenceDiff == 0:
         return "NoChange"
@@ -19,22 +20,29 @@ def classifyUser(i, data, usecase):
     else:
         return "InsignificantIncrease"
 
-def plotPieChart(segments):
-    numResponses = segments[0] + segments[1] +segments[2] +segments[3]
-    sig_inc_pc = 100.0 * segments[0] / numResponses
-    insig_inc_pc = 100.0 * segments[1] / numResponses
-    nc_pc = 100.0 * segments[2] / numResponses
-    dec_pc = 100.0 * segments[3] / numResponses
 
-    labels = [r'Significant Increase (' + str(round(sig_inc_pc, 2))+ '%)', r'Insignificant Increase (' + str(round(insig_inc_pc, 2))+ '%)', 
-    r'No Change (' + str(round(nc_pc, 2))+ '%)', r'Decrease (' + str(round(dec_pc, 2))+ '%)']
-    colors = ['yellowgreen','gold','lightskyblue','lightcoral']
-    patches, texts = plt.pie(segments, colors=colors, startangle=90)
-    plt.legend(patches, labels, loc="best")
+def plotPieChart(segments, full_usecase):
+    labels = [r'Significant Increase', r'Marginal Increase',
+              r'No Change', r'Decrease']
+    colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
+    explode = (0.1, 0, 0, 0)
+    plt.pie(segments, colors=colors, labels=labels, explode=explode, autopct='%1.1f%%', startangle=90)
     # Set aspect ratio to be equal so that pie is drawn as a circle.
     plt.axis('equal')
-    plt.tight_layout()
+    plt.title("Change in Privacy Confidence due to CPO appointment for " + full_usecase)
     plt.show()
+
+
+def get_usecase_name(usecase):
+    if usecase == 'pp':
+        return "Predictive Policing"
+    elif usecase == 'scs':
+        return "Smart Complaint System"
+    elif usecase == 'st':
+        return "Smart Transportation"
+    else:
+        return None
+
 
 if __name__ == '__main__':
     if len(sys.argv) < 2:
@@ -47,6 +55,9 @@ if __name__ == '__main__':
     data = pd.read_csv('data/survey_responses.csv')
     usecase = sys.argv[1]
 
+    # Full Usecase name
+    full_usecase = get_usecase_name(usecase)
+
     # data cleaning
     data.columns = data.columns.str.strip().str.lower().str.replace(' ', '_').str.replace('(', '').str.replace(')', '')
 
@@ -56,22 +67,16 @@ if __name__ == '__main__':
     numDecrease = 0
 
     # segment users
-    for i in range(len(data)): 
+    for i in range(len(data)):
         segment = classifyUser(i, data, usecase)
-        if(segment == "SignificantIncrease"):
+        if (segment == "SignificantIncrease"):
             numSignificantIncrease += 1
-        elif(segment == "InsignificantIncrease"):
+        elif (segment == "InsignificantIncrease"):
             numInsignificantIncrease += 1
-        elif(segment == "NoChange"):
+        elif (segment == "NoChange"):
             numNoChange += 1
         else:
             numDecrease += 1
 
     segments = [numSignificantIncrease, numInsignificantIncrease, numNoChange, numDecrease]
-    plotPieChart(segments)
- 
-
-
-
-
-    
+    plotPieChart(segments, full_usecase)

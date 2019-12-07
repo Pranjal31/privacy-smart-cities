@@ -25,7 +25,6 @@ def plotPieChart(segments):
               r'No Change', r'Decrease']
     colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral']
     explode = (0.1, 0, 0, 0)
-    fig1, ax1 = plt.subplots()
     plt.pie(segments, colors=colors, labels=labels, explode=explode, autopct='%1.1f%%', startangle=90)
     # Set aspect ratio to be equal so that pie is drawn as a circle.
     plt.axis('equal')
