@@ -14,12 +14,12 @@ def create_indexes():
     # index_pp, index_pp_without_cpo, index_pp_factor_lp
     for usecase in all_usecases:
         lower_usecase = usecase.lower()
-        indexes["index_" + lower_usecase] = usecase + " - Without CPO"
-        indexes["index_" + lower_usecase + "_with_cpo"] = usecase + " - With CPO"
+        indexes["index_" + lower_usecase] = usecase + " Without CPO"
+        indexes["index_" + lower_usecase + "_with_cpo"] = usecase + " With CPO"
         for factor in all_factors:
             if usecase == "PP" and factor == "Notify":
                 continue
-            indexes["index_" + lower_usecase + "_factor_" + factor.lower()] = usecase + " - " + factor
+            indexes["index_" + lower_usecase + "_factor_" + factor.lower()] = usecase + " " + factor
 
 
 def fetch_data_from_csv(filename):
@@ -44,7 +44,7 @@ def plot_ccdf(list_tuples, title, xlabel = None, ylabel = None):
         for i, j in zip(X, Y):
             pyl.text(i, j, str(round(j, 2)))
     pyl.legend()
-    pyl.savefig(title + ".png")
+    # pyl.savefig(title + ".png")
     pyl.show()
 
 
